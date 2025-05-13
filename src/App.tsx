@@ -6,6 +6,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import ListGroup from "./components/ListGroup";
 import Alert from "./components/Alert";
 import SaveButton from "./components/SaveButton";
+import SignUpForm from "./components/SignIn/SignUpForm";
+import ListUserData from "./components/ListUserData";
+import UserProvider from "./components/contexts/UserProvider";
+import SignInButton from "./components/SignIn/SignInButton";
+import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
+import ErrorBoundaryComponent from "./components/errorboundarycomp/ErrorBoundaryComponent";
 
 function App() {
   const [titleSub, setTitle] = useState("Save");
@@ -35,25 +41,41 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Message></Message>
-      </header>
-      {isButtonClick === 1 && (
-        <Alert onCloseClick={() => onCloseClcik()}>{alertContent}</Alert>
-      )}
+    // <ErrorBoundaryComponent>
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignUpForm />} />
+          <Route path="/userdata" element={<ListUserData />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
+    /* </ErrorBoundaryComponent> */
+    // <UserProvider>
+    //   <div className="App" style={{ maxWidth: "500px", margin: "40px" }}>
+    //     <header className="App-header">
+    //       <Message></Message>
+    //     </header>
+    //     {isButtonClick === 1 && (
+    //       <Alert  onCloseClick={() => onCloseClcik()}>{alertContent}</Alert>
+    //     )}
+    //     <SignUpForm></SignUpForm>
 
-      <ListGroup
-        countries={countries}
-        heading="Country List"
-        onSelectItem={handleSelectItem}
-      ></ListGroup>
-      <br></br>
-      <SaveButton
-        title={titleSub}
-        onButtonClick={onSaveButtonClikc}
-      ></SaveButton>
-    </div>
+    //     {/* <ListUserData></ListUserData> */}
+
+    //     <ListGroup
+    //       countries={countries}
+    //       heading="Country List"
+    //       onSelectItem={handleSelectItem}
+    //     ></ListGroup>
+    //     <br></br>
+
+    //     {/* <SaveButton
+    //     title={titleSub}
+    //     onButtonClick={onSaveButtonClikc}
+    //   ></SaveButton> */}
+    //   </div>
+    // </UserProvider>
   );
 }
 

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Counter from "./reducer_example/Counter";
 
 //items and heading passing from other
 interface ListgropProps {
@@ -9,6 +11,11 @@ interface ListgropProps {
 
 function ListGroup({ countries, heading, onSelectItem }: ListgropProps) {
   // let selectedIndex = 0;
+  const navigate = useNavigate();
+
+  const moveToCountryList = () => {
+    navigate("/userdata");
+  };
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -34,7 +41,13 @@ function ListGroup({ countries, heading, onSelectItem }: ListgropProps) {
 
   return (
     //React fragment
-    <>
+    <div
+      style={{
+        alignItems: "center",
+        height: "100vh",
+        margin: "40px",
+      }}
+    >
       <h4>{heading}</h4>
       {/* {getMessage()} */}
       {countries.length === 0 && <p>No Data found</p>}
@@ -53,7 +66,12 @@ function ListGroup({ countries, heading, onSelectItem }: ListgropProps) {
           </li>
         ))}
       </ul>
-    </>
+      <br></br>
+      <button onClick={moveToCountryList}>Move to User List</button>
+
+      <br></br>
+      <Counter></Counter>
+    </div>
   );
 }
 export default ListGroup;

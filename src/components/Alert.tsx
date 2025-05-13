@@ -13,9 +13,10 @@ const Alert = ({ children, onCloseClick }: AlertProps) => {
   return (
     <div
       className="alert alert-warning alert-dismissible fade show"
-      role="alert"
-    >
-      {children}
+      role="alert">
+        
+      {children}    
+      
       <button
         type="button"
         className="btn-close"
@@ -28,6 +29,3 @@ const Alert = ({ children, onCloseClick }: AlertProps) => {
 };
 
 export default Alert;
-function onCloseClick() {
-  throw new Error("Function not implemented.");
-}
