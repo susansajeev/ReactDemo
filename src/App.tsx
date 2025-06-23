@@ -12,6 +12,7 @@ import UserProvider from "./components/contexts/UserProvider";
 import SignInButton from "./components/SignIn/SignInButton";
 import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
 import ErrorBoundaryComponent from "./components/errorboundarycomp/ErrorBoundaryComponent";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   const [titleSub, setTitle] = useState("Save");
@@ -46,10 +47,19 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUpForm />} />
-          <Route path="/userdata" element={<ListUserData />} />
+          <Route
+            path="/userdata"
+            element={
+              <ProtectedRoute>
+                <ListUserData />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="" />
         </Routes>
       </BrowserRouter>
     </UserProvider>
+
     /* </ErrorBoundaryComponent> */
     // <UserProvider>
     //   <div className="App" style={{ maxWidth: "500px", margin: "40px" }}>

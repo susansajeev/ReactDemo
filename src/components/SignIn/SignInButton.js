@@ -11,6 +11,8 @@ const SignInButton = ({ formData, showAlert }) => {
             showAlert(true, "User Invalid")
         } else if (!((formData.phoneNo.match('[0-9]{10}')) && formData.phoneNo.length === 10)) {
             showAlert(true, "Invalid Phone Number")
+        } else if (formData.password.length === 0) {
+            showAlert(true, "Invalid Password")
         } else {
             showAlert(false, "")
             login(formData.userName)

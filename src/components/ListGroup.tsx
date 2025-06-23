@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Counter from "./reducer_example/Counter";
+import LoadingLaComp from "./lazyload/LoadingLazy";
 
 //items and heading passing from other
 interface ListgropProps {
@@ -17,6 +18,10 @@ function ListGroup({ countries, heading, onSelectItem }: ListgropProps) {
     navigate("/userdata");
   };
 
+  const movetoSSR = () => {
+    navigate("/userdata");
+  };
+
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   function listItemClick(
@@ -28,6 +33,7 @@ function ListGroup({ countries, heading, onSelectItem }: ListgropProps) {
     onSelectItem(item);
     console.log("Clicked " + item + " " + index, event);
   }
+  const [showComponent, setShowComponent] = useState(false);
 
   // if (countries.length == 0) {
   //   return <p>No Data Found</p>;
@@ -67,7 +73,19 @@ function ListGroup({ countries, heading, onSelectItem }: ListgropProps) {
         ))}
       </ul>
       <br></br>
+      <h3>Click to Load a Lazy Component</h3>
+      <button onClick={() => setShowComponent(true)}>
+        Load Lazy Component
+      </button>
+      {showComponent && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoadingLaComp />
+        </Suspense>
+      )}
+      <br></br>
       <button onClick={moveToCountryList}>Move to User List</button>
+
+      <button onClick={movetoSSR}>Move to SSR</button>
 
       <br></br>
       <Counter></Counter>

@@ -1,25 +1,47 @@
-import React, { useMemo, useState, useCallback, useContext } from 'react'
+import React, { useMemo, useState, useCallback, useContext, useEffect } from 'react'
 import UserConext from './contexts/UserConext';
 import { useNavigate } from "react-router-dom";
+import apitest from '../api/AxiosApiTest';
 
 const ListUserData = () => {
     const [selectedGroup, setSelectedGroup] = useState("all")
     const navigate = useNavigate();
     const { logOut } = useContext(UserConext)
-    const userData = [
-        { id: 1, name: 'Alice', group: 'admin' },
-        { id: 2, name: 'Bob', group: 'editor' },
-        { id: 3, name: 'Charlie', group: 'admin' },
-        { id: 4, name: 'David', group: 'viewer' },
-        { id: 5, name: 'Rua', group: 'editor' },
-        { id: 2, name: 'Susan', group: 'editor' },
-        { id: 3, name: 'Sajeev', group: 'admin' },
-        { id: 2, name: 'RykaRua', group: 'guest' },
-        { id: 3, name: 'laly', group: 'admin' },
-        { id: 4, name: 'Sumith', group: 'viewer' },
-        { id: 5, name: 'Ryka', group: 'editor' },
-    ];
+
+    const [userData, setUser] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await apitest.get('/getuserdata'); // 🔁 your API endpoint
+                console.log("dataaa" + response.data)
+                setUser(response.data);
+            } catch (error) {
+                console.error('Failed to fetch user:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, [])
+    // const userData = [
+    //     { id: 1, name: 'Alice', group: 'admin' },
+    //     { id: 2, name: 'Bob', group: 'editor' },
+    //     { id: 3, name: 'Charlie', group: 'admin' },
+    //     { id: 4, name: 'David', group: 'viewer' },
+    //     { id: 5, name: 'Rua', group: 'editor' },
+    //     { id: 2, name: 'Susan', group: 'editor' },
+    //     { id: 3, name: 'Sajeev', group: 'admin' },
+    //     { id: 2, name: 'RykaRua', group: 'guest' },
+    //     { id: 3, name: 'laly', group: 'admin' },
+    //     { id: 4, name: 'Sumith', group: 'viewer' },
+    //     { id: 5, name: 'Ryka', group: 'editor' },
+    // ];
     const filteredList = useMemo(() => {
+
+        if (!Array.isArray(userData)) return [];
         console.log("Searching..........")
         if (selectedGroup === "all") {
             return userData
@@ -42,6 +64,9 @@ const ListUserData = () => {
         console.log("value ==")
         setClicked(prev => prev + 1);
     }, []); // function will not change across renders
+
+    if (loading) return <p>Loading...</p>;
+
     return (
         <div style={{
             alignItems: 'center',
